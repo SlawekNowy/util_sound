@@ -25,7 +25,7 @@ class CLAMETag :
 	public CTag
 {
 public:
-	static CLAMETag* CLAMETag::FindTag(CMPAStream* pStream, bool bAppended, DWORD dwBegin, DWORD dwEnd);
+	static CLAMETag* FindTag(CMPAStream* pStream, bool bAppended, DWORD dwBegin, DWORD dwEnd);
 	~CLAMETag(void);
 
 	CString m_strEncoder;
