@@ -28,7 +28,7 @@
 
 CID3V2Tag* CID3V2Tag::FindTag(CMPAStream* pStream, bool bAppended, DWORD dwBegin, DWORD dwEnd)
 {
-	char* szID;
+	const char* szID;
 	DWORD dwOffset;
 
 	if (!bAppended)
