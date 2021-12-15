@@ -24,7 +24,7 @@
 #endif
 //
 
-static void get_ogg_file_data(VFilePtr f,vorbis_info **pInfo,OggVorbis_File &oggFile)
+static void get_ogg_file_data(VFilePtr &f,vorbis_info **pInfo,OggVorbis_File &oggFile)
 {
 	ov_callbacks cb;
 	cb.close_func = [](void *dataSource) -> int {
