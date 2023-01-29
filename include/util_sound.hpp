@@ -8,11 +8,9 @@
 #include "util_sound_definitions.hpp"
 #include <string>
 
-namespace util
-{
-	namespace sound
-	{
-		bool get_duration(const std::string path,float &duration);
+namespace util {
+	namespace sound {
+		bool get_duration(const std::string path, float &duration);
 	};
 };
 
