@@ -160,7 +160,7 @@ CMPAHeader::CMPAHeader(CMPAStream* pStream, DWORD& dwOffset, bool bExactOffset, 
 				if (pCompareHeader)
 				{
 					// is this header compatible (which means that it resembles the previous header
-					if (!(*this == *pCompareHeader))
+					if (!(this->operator==(*pCompareHeader)))
 						throw CMPAException(CMPAException::IncompatibleHeader, pStream->GetFilename());
 				}
 				bHeaderFound = true;
