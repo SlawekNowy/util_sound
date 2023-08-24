@@ -10,7 +10,7 @@
 
 namespace util {
 	namespace sound {
-		bool get_duration(const std::string path, float &duration);
+		DLLUSND bool get_duration(const std::string path, float &duration);
 	};
 };
 

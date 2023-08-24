@@ -5,10 +5,22 @@
 #ifndef __UTIL_SOUND_DEFINITIONS_HPP__
 #define __UTIL_SOUND_DEFINITIONS_HPP__
 
-#ifdef _WIN32
 #define USOUND_MP3_SUPPORT_ENABLED 1
+
+#ifdef USND_STATIC
+#define DLLUSND
+#elif USND_DLL
+#ifdef __linux__
+#define DLLUSND __attribute__((visibility("default")))
 #else
-#define USOUND_MP3_SUPPORT_ENABLED 0
+#define DLLUSND __declspec(dllexport)
+#endif
+#else
+#ifdef __linux__
+#define DLLUSND
+#else
+#define DLLUSND __declspec(dllimport)
+#endif
 #endif
 
 #endif

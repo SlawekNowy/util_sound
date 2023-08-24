@@ -66,11 +66,11 @@ add_include_dir(libogg_build)
 
 add_external_library(libvorbisfile)
 
-set(DEFINITIONS)
+set(DEFINITIONS USND_DLL)
 
 ##### CONFIGURATION #####
 
-set(LIB_TYPE STATIC)
+set(LIB_TYPE SHARED)
 
 foreach(def IN LISTS DEFINITIONS)
 	add_definitions(-D${def})
