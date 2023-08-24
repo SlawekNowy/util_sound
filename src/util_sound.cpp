@@ -4,28 +4,24 @@
 
 #include "util_sound.hpp"
 #include <fsys/filesystem.h>
+#include <fsys/ifile.hpp>
 #include <array>
-#include <sharedutils/util_file.h>
 #include <vorbis/vorbisfile.h>
 #include <cstring>
-
-// Sound duration for mp3 files
 #if USOUND_MP3_SUPPORT_ENABLED == 1
+#include <mpafilestream.hpp>
+#include <mpafile.hpp>
 
-#ifdef _WIN32
-template<class T, class V>
-BOOL MoveFile(const T &, const V &)
-{
-	return FALSE;
+struct MPHFile : public CMPAIFile {
+	MPHFile(std::unique_ptr<ufile::IFile> &&f) : m_file {std::move(f)} {}
+	virtual ~MPHFile() = default;
+	virtual size_t Read(void *data, size_t size) override { return m_file->Read(data, size); }
+	virtual void Seek(size_t offset, Whence whence = Whence::Set) override { m_file->Seek(offset, static_cast<ufile::IFile::Whence>(whence)); }
+	virtual size_t GetSize() override { return m_file->GetSize(); }
+  private:
+	std::unique_ptr<ufile::IFile> m_file;
 };
-#include <atlstr.h>
-#include <Windows.h>
-#include <mpaheader/mpafile.h>
-#include "MPAVFileStream.hpp"
 #endif
-
-#endif
-//
 
 static void get_ogg_file_data(VFilePtr &f, vorbis_info **pInfo, OggVorbis_File &oggFile)
 {
@@ -87,10 +83,10 @@ bool util::sound::get_duration(const std::string path, float &duration)
 		return false;
 	if(ext == "mp3") {
 #if USOUND_MP3_SUPPORT_ENABLED == 1
-#ifdef _WIN32
+		auto mphFile = std::make_unique<MPHFile>(std::make_unique<fsys::File>(f));
 		try {
-			auto *stream = new CMPAVFileStream(f); // The stream closes the file automatically
-			CMPAFile fInfo(stream);                // Destructor gets rid of stream as well
+			auto *fstream = new CMPAFileStream {std::move(mphFile)}; // Will be deleted by destructor of CMPAFile
+			CMPAFile fInfo {fstream};
 			duration = static_cast<float>(fInfo.GetLengthSec());
 			return true;
 		}
@@ -98,9 +94,6 @@ bool util::sound::get_duration(const std::string path, float &duration)
 			UNUSED(e);
 			return false;
 		}
-#else
-		return false;
-#endif
 #endif
 	}
 	else if(ext == "wav") {

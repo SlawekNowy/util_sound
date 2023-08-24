@@ -60,6 +60,7 @@ link_external_library(mathutil)
 link_external_library(vfilesystem)
 link_external_library(libvorbis)
 link_external_library(libogg)
+link_external_library(mpaheader)
 
 add_include_dir(libogg_build)
 
