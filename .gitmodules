@@ -1,0 +1,3 @@
+[submodule "third_party_libs/mpaheader"]
+	path = third_party_libs/mpaheader
+	url = https://github.com/slaweknowy/mpaheader.git
